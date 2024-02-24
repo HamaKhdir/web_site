@@ -1,0 +1,100 @@
+{% extends 'awat_petrol/base.html' %}
+{% block body %}
+<div class="row mt-4">
+    <div class="col-12">
+        <div class="card bg-light" dir="rtl">
+            <div class="card-header">
+              <a type="button" href="{% url 'awat_petrol:add-counter' %}" class="btn btn-light"> <i class="fa-sharp fa-solid fa-plus fa-lg"></i> زیادکردن</a>
+              <a type="button" href="#" class="btn btn-light float-right text-success ms-2"> <i class="fa-solid fa-file-excel fa-lg"></i>  هەڵگرتن  Excel</a>
+            </div>
+            <div class="card-body">
+                {% if counters %}
+                <p class="card-text">
+                    <div class="table-responsive">
+                        <table class="table table-bordered table-striped text-center text-nowrap align-middle">
+                            <thead>
+                              <tr>
+                                <td scope="col">ماددە</td>
+                                <td scope="col">تۆماری کۆتایی</td>
+                                <td scope="col">تۆماری پێشوو</td>
+                                <td scope="col">بڕی فرۆشراو</td>
+                                <td scope="col">کۆی پارە</td>
+                                <td scope="col">شەفت</td>
+                                <td scope="col">بەروار</td>
+                                <td scope="col"></td>
+                              </tr>
+                            </thead>
+                            <tbody>
+                            {% for counter in counters %}
+                              <tr>
+                                <td>{{counter.item}}</td>
+                                <td>{{counter.register}}</td>
+                                <td>{{counter.old_register}}</td>
+                                <td>{{counter.buy_amount}}</td>
+                                <td>{{counter.buy_amount_money}}</td>
+                                <td>{{counter.shift}}</td>
+                                <td>{{counter.entry_date}}</td>
+                                <td>
+
+                                    <button type="button" class="btn btn-danger me-1" data-bs-toggle="modal" data-bs-target="#delete{{counter.id}}"><i class="fa-sharp fa-solid fa-trash fa-lg"></i></button> 
+                                    <!--Delete Model-->
+                                    <div class="modal" id="delete{{counter.id}}" tabindex="-1" aria-hidden="true" aria-labelledby="mymodellabel2">
+                                        <div class="modal-dialog" role="document">
+                                          <div class="modal-content">
+                                            <div class="modal-header">
+                                              <h5 class="modal-title text-center">تۆماری {{counter.item}}</h5>
+                                            </div>
+                                            <div class="modal-body" >
+                                                <p>
+                                                    دڵنیای لە سڕینەوەی تۆماری <span class="text-danger">{{counter.item}}</span>؟
+                                                </p>
+                                            </div>
+                                            <div class="modal-footer">
+                                            <form method="POST" action="{% url 'awat_petrol:delete-counter' counter.id %}">
+                                                {% csrf_token %}
+                                                <input type="submit" class="btn btn-primary" value="سڕینەوە"/>
+                                              </form>  
+                                              <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">پەشیمانم</button>
+                                            </div>
+                                          </div>
+                                        </div>
+                                      </div>                                                                        
+                               
+                                </td>
+                              </tr>
+                              {% endfor %}
+                            </tbody>
+                          </table>
+                    </div>
+                </p>
+                {% else %}
+                <h4 class="card-title text-center">هیچ تۆمارنەکراوە</h4>
+                {% endif%}
+            </div>
+            {% if pagination %}
+            <div class="card-footer text-center">
+              {% if counters.has_previous %}
+                <a  class="text-decoration-none" href="?page=1">&laquo; سەرەتا</a>
+                <a  class="text-decoration-none" href="?page={{counters.previous_page_number}}"> پێشتر </a>
+              {% endif %} &#10088; پەڕەی {{counters.number}} لە {{counters.paginator.num_pages}} &#10089;
+              {% if counters.has_next %} 
+                <a  class="text-decoration-none" href="?page={{counters.next_page_number}}">دواتر</a>
+                <a  class="text-decoration-none" href="?page={{counters.paginator.num_pages}}"> کۆتا &raquo;</a>
+              {% endif %}              
+            </div>
+            {% endif %}             
+          </div>
+    </div>
+</div>
+{%if messages%}
+<div class="row p-0 m-0 mt-4">
+  <div class="col-sm text-center p-0 m-0">             
+    {%for message in messages%}
+      <div class="alert alert-warning" role="alert">
+      {{message}} 
+    </div>
+    {%endfor%}           
+  </div>
+  </div>
+  {%endif%}
+{% endblock %}

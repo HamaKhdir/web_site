@@ -1,0 +1,81 @@
+{% extends 'awat_petrol/base.html' %}
+{% block body %}
+<div class="row mt-4">
+    <div class="col-12">
+        <div class="card bg-light" dir="rtl">
+            <div class="card-header">
+              <a type="button" href="{% url 'awat_petrol:add-measure' %}" class="btn btn-light"> <i class="fa-sharp fa-solid fa-plus fa-lg"></i> زیادکردن</a>
+              <a type="button" href="#" class="btn btn-light float-right text-success ms-2"> <i class="fa-solid fa-file-excel fa-lg"></i>  هەڵگرتن  Excel</a>
+            </div>
+            <div class="card-body">
+                {% if measures %}
+                <p class="card-text">
+                    <div class="table-responsive">
+                        <table class="table table-bordered table-striped text-center text-nowrap align-middle">
+                            <thead>
+                              <tr>
+                                <td scope="col">ناوی یەکە</td>
+                                <td scope="col">بڕ بە لیتر</td>
+                                <td scope="col"></td>
+                              </tr>
+                            </thead>
+                            <tbody>
+                            {% for measure in measures %}
+                              <tr>
+                                <td>{{measure.get_name_display}}</td>
+                                <td>{{measure.to_liter}}</td>
+                                <td>
+                                  
+                                <a type="button" href="{% url 'awat_petrol:edit-measure' measure.id %}" class="btn btn-warning me-1">
+                                    <i class="fa-solid fa-pen-to-square fa-lg"></i>
+                                </a> 
+                                    <button type="button" class="btn btn-danger me-1" data-bs-toggle="modal" data-bs-target="#delete{{measure.id}}"><i class="fa-sharp fa-solid fa-trash fa-lg"></i></button> 
+                                    <!--Delete Model-->
+                                    <div class="modal" id="delete{{measure.id}}" tabindex="-1" aria-hidden="true" aria-labelledby="mymodellabel2">
+                                        <div class="modal-dialog" role="document">
+                                          <div class="modal-content">
+                                            <div class="modal-header">
+                                              <h5 class="modal-title text-center">یەکەی {% if measure.name == 'Tn' %} تۆن {% else %} لیتر {% endif %}</h5>
+                                            </div>
+                                            <div class="modal-body" >
+                                                <p>
+                                                    دڵنیای لە سڕینەوەی یەکەی <span class="text-danger">{% if measure.name == 'Tn' %} تۆن {% else %} لیتر {% endif %}</span>؟
+                                                </p>
+                                            </div>
+                                            <div class="modal-footer">
+                                            <form method="POST" action="{% url 'awat_petrol:delete-measure' measure.id %}">
+                                                {% csrf_token %}
+                                                <input type="submit" class="btn btn-primary" value="سڕینەوە"/>
+                                              </form>  
+                                              <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">پەشیمانم</button>
+                                            </div>
+                                          </div>
+                                        </div>
+                                      </div>                                                                        
+                               
+                                </td>
+                              </tr>
+                              {% endfor %}
+                            </tbody>
+                          </table>
+                    </div>
+                </p>
+                {% else %}
+                <h4 class="card-title text-center">هیچ یەکەیەک تۆمارنەکراوە</h4>
+                {% endif%}
+            </div>
+          </div>
+    </div>
+</div>
+{%if messages%}
+<div class="row p-0 m-0 mt-4">
+  <div class="col-sm text-center p-0 m-0">             
+    {%for message in messages%}
+      <div class="alert alert-warning" role="alert">
+      {{message}} 
+    </div>
+    {%endfor%}           
+  </div>
+  </div>
+  {%endif%}
+{% endblock %}

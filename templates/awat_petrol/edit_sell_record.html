@@ -1,0 +1,76 @@
+{% extends 'awat_petrol/base.html' %}
+{% load static %}
+{% block body %}
+{% if success %}
+<script>
+    location = "{% url 'awat_petrol:index' %}";
+</script>
+{% else %}
+
+<div class="card bg-light mb-3 mt-4" dir="rtl">
+    <div class="card-header h4">گۆڕانکاری</div>
+    <div class="card-body">
+        <form  method="POST">
+            {% csrf_token %}
+            {{form.as_p}}
+            <button type="submit" class="btn btn-primary">گۆڕانکاری </button>
+            <a href="{% url 'awat_petrol:customer-accounts' customer_id %}" class="btn btn-secondary">گەڕانەوە</a>
+        </form>
+    </div>
+    </div>
+
+{% endif %}
+
+{% endblock %}
+
+{% block js %}
+<script src="{% static 'js/jquery-3.3.1.min.js' %}"></script>
+ 
+<script> 
+  $(document).ready(function(){
+    $('#item').change(function () {
+        var item_id=$('#item').find(":selected").val();
+  
+        $.ajax({
+          url : "{% url 'awat_petrol:find-sell-unit' %}",
+          type : "GET",
+          data : {"id" : item_id},
+          dataType : "JSON",
+          success : function(result){
+          if (result) {
+             var unit =JSON.parse(result).data; 
+             var item_price =JSON.parse(result).price;
+             $("#sell_price").val(item_price);
+             
+             var kurdish_name ="";
+             if(unit == "Tn"){
+              kurdish_name = "تۆن";
+             }else{
+              kurdish_name = "لیتر";
+             }
+             $('label[for="amount"]').text(" بڕ بە " + kurdish_name);
+             $('label[for="sell_price"]').text(" نرخی یەک " + kurdish_name);
+            }    
+      
+  
+          }
+        });
+         
+   
+          });
+      $('#sell_price').change(function () {
+          var sell_price=$('#sell_price').val(); 
+          var amount=$('#amount').val();
+          var total = amount * sell_price;
+          $('#total_money').val(total);
+          }); 
+      $('#amount').change(function () {
+          var sell_price=$('#sell_price').val(); 
+          var amount=$('#amount').val();
+          var total = amount * sell_price;
+          $('#total_money').val(total);
+          });         
+      });              
+    </script>
+  {% endblock %}
+  

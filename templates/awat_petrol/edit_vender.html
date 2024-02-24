@@ -1,0 +1,23 @@
+{% extends 'awat_petrol/base.html' %}
+
+{% block body %}
+ 
+{% if success %}
+<script>
+    location="{% url 'awat_petrol:view-venders' %}";
+</script>
+{% else %}
+<div class="card bg-light mb-3 mt-4" dir="rtl">
+    <div class="card-header h4"><i class="fa-solid fa-user-pen"></i> گۆڕانکاری</div>
+    <div class="card-body">
+        <form action="" method="POST">
+            {% csrf_token %}
+            {{form.as_p}}
+            <button type="submit" class="btn btn-primary">گۆڕانکاری</button>
+            <a href="{% url 'awat_petrol:view-venders' %}" class="btn btn-secondary">گەڕانەوە</a>
+        </form>
+    </div>
+</div>
+{% endif %}
+
+{% endblock %}

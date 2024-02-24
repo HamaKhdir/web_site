@@ -1,0 +1,51 @@
+{% extends 'peshang_petrol/base.html' %}
+ 
+{% block body %}
+<div class="row mt-4">
+    <div class="col-12">
+        <div class="card bg-light" dir="rtl">
+            <div class="card-header">
+              <a type="button" href="{% url 'peshang_petrol:tanks' %}" class="btn btn-light float-right text-success ms-2"><i class="fa-solid fa-weight-scale"></i> تانکیەکان</a>
+              <a type="button" href="#" class="btn btn-light float-right text-success "><i class="fa-solid fa-file-excel fa-lg"></i> هەڵگرتنی کۆگا  Excel </a>              
+            </div>
+            <div class="card-body">
+                {% if data %}
+                <p class="card-text">
+                    <div class="table-responsive">
+                        <table class="table table-bordered table-striped text-center text-nowrap align-middle">
+                            <thead>
+                              <tr>
+                                <th scope="col">ناوی ماددە</th>
+                                <th scope="col">بڕ بە لیتر</th>
+                                <th scope="col">بڕ بە تەن</th>
+                                <th scope="col"></th>
+                              </tr>
+                            </thead>
+                            <tbody>
+                            {% for x in data %}
+                              <tr class="table-active">
+                                <td>{{x.item}}</td>
+                                <td>{{x.amount}}</td>
+                                <td>{% if x.item.buy_unit.name == 'Tn'%} <script> document.write(Math.round("{{x.amount}}"/"{{x.item.buy_unit.to_liter}}"* 10000) / 10000);</script> {% endif %}</td>
+                                <td>                           
+                                   
+                                  {% if x.item.convert_warning_amount_to_Lt >  x.amount %} 
+                                                                
+                                   <i class="fa-solid fa-triangle-exclamation fa-lg text-danger"></i> 
+                            
+                                  {% endif %} 
+                                </td>
+                              </tr>
+                              {% endfor %}
+                            </tbody>
+                          </table>
+                    </div>
+                </p>
+                {% else %}
+                <h4 class="card-title text-center"> هیچ ماددەیەک تۆمارنەکراوە </h4>
+                {% endif%}
+            </div>
+          </div>
+    </div>
+</div>
+{% endblock %}

@@ -1,0 +1,30 @@
+{% extends 'awat_petrol/base.html' %}
+{% load static %}
+{% block body %}
+{% if success %}
+<script>
+    location = "{% url 'awat_petrol:view-users' %}";
+</script>
+{% else %}
+
+<div class="card bg-light mb-3 mt-4" dir="rtl">
+    <div class="card-header h4"><i class="fa-solid fa-user-tie fa-lg"></i> گۆڕینی شەفت بۆ {{username}}</div>
+    <div class="card-body">
+        <form method="POST">
+            {% csrf_token %} 
+            <select class="form-select mb-2" name="shift" dir="ltr">                 
+                {% for shift in shifts%}
+                <option value="{{shift.id}}">{{shift.name}}</option>
+                {% endfor%}
+            </select> 
+            <button type="submit" class="btn btn-primary">گۆڕانکاری</button>
+            <a href="{% url 'awat_petrol:view-users' %}" class="btn btn-secondary">گەڕانەوە</a>
+        </form>
+    </div>
+    </div>
+
+{% endif %}
+
+{% endblock %}
+
+ 

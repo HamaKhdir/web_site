@@ -1,0 +1,76 @@
+{% load static %}
+<!doctype html>
+<html lang="en" dir="rtl">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css"/>
+    <link href="{% static 'css/fontstyle.css' %}" rel="stylesheet">
+    <link href="{% static 'css/bootstrap.rtl.min.css' %}" rel="stylesheet">
+    {% block css %}
+    {% endblock %}  
+    <title>Petrol Station</title>  
+  </head>
+  <body class="d-flex flex-column min-vh-100">  
+    <nav class="navbar navbar-expand-lg navbar navbar-dark bg-primary">
+      <div class="container-fluid">
+        <a class="navbar-brand" href="{% url 'peshang_petrol:index' %}"><i class="fa-solid fa-gas-pump fa-lg"></i>بەنزینخانەی پێشەنگ</a>
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarText" aria-controls="navbarText" aria-expanded="false" aria-label="Toggle navigation">
+          <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarText">
+          <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+            <li class="nav-item">
+              <a class="nav-link active" aria-current="page" href="{% url 'peshang_petrol:index' %}"><i class="fa-solid fa-house"></i> سەرەکی</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="{% url 'peshang_petrol:view-measures' %}"><i class="fa-solid fa-scale-balanced"></i> پێوانەکان</a>
+            </li>             
+            <li class="nav-item">
+              <a class="nav-link" href="{% url 'peshang_petrol:view-items' %}"><i class="fa-solid fa-oil-well"></i> ماددەکان</a>
+            </li>             
+            <li class="nav-item">
+              <a class="nav-link" href="{% url 'peshang_petrol:show-store' %}"><i class="fa-solid fa-weight-scale"></i> ناو کۆگاکە</a>
+            </li> 
+            <li class="nav-item">
+              <a class="nav-link" href="{% url 'peshang_petrol:view-venders' %}"><i class="fa-solid fa-truck-droplet"></i> فرۆشیارەکان</a>
+            </li>              
+            <li class="nav-item">
+              <a class="nav-link" href="{% url 'peshang_petrol:view-customers' %}"><i class="fa-solid fa-car-side"></i> موشتەریەکان</a>
+            </li>                                   
+            <li class="nav-item dropdown">
+              <a class="nav-link dropdown-toggle" id="navbardrop" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                <i class="fa-solid fa-user-tie"></i> بەکارهێنەر
+              </a>
+              <ul class="dropdown-menu dropdown-menu-primary" aria-labelledby="navbardrop">
+                <li class="text-center align-middle disabled"><small class="text-primary">{{request.user.username|title}}: {% for group in request.user.groups.all %}
+                  {% if group.name == 'peshang_user' %}
+                  Member
+                  {% elif group.name == 'peshang_admin' %} 
+                  Manager
+                  {% endif %}
+              {% endfor %}</small>
+                </li>
+                 
+                <li><a class="dropdown-item text-center active" href="{% url 'peshang_petrol:logout' %}"><i class="fa-solid fa-right-from-bracket"></i> چوونە دەرەوە</a></li>   
+              </ul>
+            </li>         
+     
+          </ul> 
+        </div>
+      </div>
+    </nav>
+    <div class="container-fluid">  
+    {% block body %}
+    {% endblock %}  
+    </div> 
+    <div class="footer mt-auto mb-2">
+      <div class="text-center text-nowrap">
+          <small>Developed by Software Engineer Hama Kh. &copy; <script> document.write(new Date().getFullYear())</script></small>
+      </div>
+    </div> 
+    <script src="{% static 'js/bootstrap.bundle.min.js' %}"></script>
+    {% block js %}
+    {% endblock %}
+  </body>
+</html>

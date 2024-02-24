@@ -1,0 +1,83 @@
+{% extends 'awat_petrol/base.html' %}
+{% load static %}
+{% block body %}
+ 
+{% if success %}
+<script>
+    location = "{% url 'awat_petrol:index' %}";
+</script>
+{% else %}
+ 
+<div class="card bg-light mb-3 mt-4" dir="rtl">
+    <div class="card-header h5"><i class="fa-solid fa-truck-moving fa-lg"></i> کڕین / {{vender.fullName}}</div>
+    <div class="card-body">
+        <form action="{% url 'awat_petrol:add-buy' vender.id %}" method="POST">
+            {% csrf_token %}
+            {{form.as_p}}                   
+            <button type="submit" class="btn btn-primary">زیادکردن</button>
+            <a href="{% url 'awat_petrol:index' %}" class="btn btn-secondary">گەڕانەوە</a>
+        </form>
+    </div>
+    </div>
+ 
+{% endif %}
+{%if messages%}
+<div class="row p-0 m-0 mt-4">
+  <div class="col-sm text-center p-0 m-0">             
+    {%for message in messages%}
+      <div class="alert alert-warning" role="alert">
+      {{message}} 
+    </div>
+    {%endfor%}           
+  </div>
+  </div>
+  {%endif%}
+{% endblock %}
+
+{% block js %}
+<script src="{% static 'js/jquery-3.3.1.min.js' %}"></script>
+ 
+<script> 
+$(document).ready(function(){
+  $('#item').change(function () {
+      var item_id=$('#item').find(":selected").val();
+
+      $.ajax({
+        url : "{% url 'awat_petrol:find-buy-unit' %}",
+        type : "GET",
+        data : {"id" : item_id},
+        dataType : "JSON",
+        success : function(result){
+        if (result) {
+           var unit =JSON.parse(result).data; 
+           var kurdish_name ="";
+           if(unit == "Tn"){
+            kurdish_name = "تۆن";
+           }else{
+            kurdish_name = "لیتر";
+           }
+           $('label[for="amount"]').text(" بڕ بە " + kurdish_name);
+           $('label[for="buy_price"]').text(" نرخی یەک " + kurdish_name);
+          }    
+    
+
+        }
+      });
+       
+ 
+        });
+    $('#buy_price').change(function () {
+        var buy_price=$('#buy_price').val(); 
+        var amount=$('#amount').val();
+        var total = amount * buy_price;
+        $('#total_money').val(total);
+        }); 
+    $('#amount').change(function () {
+        var buy_price=$('#buy_price').val(); 
+        var amount=$('#amount').val();
+        var total = amount * buy_price;
+        $('#total_money').val(total);
+        });         
+    });              
+  </script>
+{% endblock %}

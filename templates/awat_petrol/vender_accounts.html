@@ -1,0 +1,125 @@
+{% extends 'awat_petrol/base.html' %}
+{% load static %}
+{% block body %}
+<div class="row mt-0">
+  <div class="col-12">
+    <form method="post">
+      {% csrf_token %}
+      <div class="row">
+        <div class="col-sm-4">
+          <input type="date" class="form-control mt-2" placeholder="Start Date" name="start_date" required oninvalid="this.setCustomValidity('Enter start date here')"
+          oninput="this.setCustomValidity('')"/>
+        </div>
+        <div class="col-sm-4">
+          <input type="date" class="form-control mt-2" placeholder="End Date" name="end_date" required oninvalid="this.setCustomValidity('Enter end date here')"
+          oninput="this.setCustomValidity('')"/>
+        </div>
+        <div class="col-sm-2">
+          <button type="submit" class="btn btn-outline-secondary w-100 mt-2">  <i class="fa-solid fa-magnifying-glass"></i>بگەڕێ</button>
+        </div>
+        <div class="col-sm-2">
+          <a class="btn btn-outline-secondary w-100 mt-2" href="{% url 'awat_petrol:vender-accounts' vender.id %}"><i class="fa-solid fa-rotate-left fa-lg"></i>پێشوو</a>
+        </div>
+      </div>
+    </form>
+  </div>
+</div>
+<div class="row mt-2">
+    <div class="col-12">
+        <div class="card bg-light" dir="rtl">
+            <div class="card-header text-center">
+              <span >حساباتی / {{vender.fullName}}</span>
+            </div>
+            <div class="card-body">
+                {% if records %}
+                <p class="card-text">
+                    <div class="table-responsive">
+                        <table class="table table-bordered table-striped text-nowrap align-middle text-center">
+                            <thead>
+                              <tr> 
+                                <td scope="col">تۆمار</td>  
+                                <td scope="col">بابەت</td>
+                                <td scope="col">بڕ</td>                           
+                                <td scope="col">نرخ </td>
+                                <td scope="col">رقم وصل</td>
+                                <td scope="col">بەروار</td>
+                                <td scope="col">کۆی گشتی پارە</td>
+                                <td scope="col">بڕی واصڵکراو</td>
+                                <td scope="col">بڕی ماوە </td>
+                                <td scope="col">کۆتا حیساب</td>
+                                <td scope="col">تێبینی</td>
+                                <td scope="col">بەرواری تۆمار</td>                                                                                                                                                                
+                                <td scope="col"></td>
+                              </tr>
+                            </thead>
+                            <tbody>
+                            {% for record in records %}
+                              <tr>  
+                                <td>{{record.id}}</td>
+                                <td>{%if record.item == None %}واصڵکردن{%else%}{{record.item}} {%endif%}</td>
+                                <td>{%if record.item == None %}{%else%}{{record.amount}}<span class="text-danger">{{record.buy_unit}}</span> {%endif%}</td>
+                                <td>{%if record.item == None %}{%else%}{{record.buy_price}} {%endif%}</td>
+                                <td>{%if record.item == None %}{%else%}{{record.bill_no}} {%endif%}</td>
+                                <td>{{record.buy_date}}</td>
+                                <td>{%if record.item == None %}{%else%}{{record.total_money}} {%endif%}</td>
+                                <td>{{record.paid_money}}</td>
+                                <td>{%if record.item == None %}{%else%}{{record.loan_money}} {%endif%}</td>
+                                <td style="font-weight: bold; color: red;">{{record.last_account}}</td>
+                                <td>{{record.note}}</td>
+                                <td>{{record.entry_date}}</td>
+                                <td>
+                                   <a  href="{% url 'awat_petrol:print-vender-account' record.id %}" class="btn btn-secondary me-1"><i class="fa-solid fa-file-invoice fa-lg"></i></a>
+                                   <a  href="{% url 'awat_petrol:edit-buy-record' record.id %}" class="btn btn-warning me-1"><i class="fa-solid fa-file-pen fa-lg"></i></a>
+                                   <button type="button" class="btn btn-danger me-1" data-bs-toggle="modal" data-bs-target="#delete{{record.id}}"><i class="fa-sharp fa-solid fa-trash fa-lg"></i></button> 
+                                    <!-- Delete Model-->
+                                    <div class="modal" id="delete{{record.id}}" tabindex="-1" aria-hidden="true" aria-labelledby="mymodellabel2">
+                                        <div class="modal-dialog" role="document">
+                                          <div class="modal-content">
+                                            <div class="modal-header">
+                                              <h5 class="modal-title text-center">{% if record.item == None %} {% else %}{{record.item}}{% endif%}</h5>
+                                            </div>
+                                            <div class="modal-body" dir="rtl">
+                                                <p>
+                                                   دڵنیای لە سڕینەوەی تۆماری ژمارە    {{record.id}}؟
+                                                </p>
+                                            </div>
+                                            <div class="modal-footer">
+                                              <form method="POST" action=" {% url 'awat_petrol:delete-buy-record' record.id %} ">
+                                                {% csrf_token %}
+                                                <input type="submit" class="btn btn-primary" value="سڕینەوە"/>
+                                              </form>  
+                                              <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">پەشیمانم</button>
+                                            </div>
+                                          </div>
+                                        </div>
+                                      </div>                                                                        
+                               
+                                </td>
+                              </tr>
+                              {% endfor %}
+                            </tbody>
+                          </table>
+                    </div>
+                </p>
+                {% else %}
+                <h4 class="card-title text-center">هیچ تۆمارنەکراوە!</h4>
+                {% endif%}
+            </div>
+            {% if pagination %}
+            <div class="card-footer text-center">
+              {% if records.has_previous %}
+                <a  class="text-decoration-none" href="?page=1">&laquo; سەرەتا</a>
+                <a  class="text-decoration-none" href="?page={{records.previous_page_number}}"> پێشتر </a>
+              {% endif %} &#10088; پەڕەی {{records.number}} لە {{records.paginator.num_pages}} &#10089;
+              {% if records.has_next %} 
+                <a  class="text-decoration-none" href="?page={{records.next_page_number}}">دواتر</a>
+                <a  class="text-decoration-none" href="?page={{records.paginator.num_pages}}"> کۆتا &raquo;</a>
+              {% endif %}              
+            </div>
+            {% endif %} 
+          </div>
+    </div>
+</div>
+ 
+{% endblock %}
+ 

@@ -1,0 +1,60 @@
+{% extends 'peshang_petrol/base.html' %}
+{% load static %}
+{% block body %}
+{% if success %}
+<script>
+    location = "{% url 'peshang_petrol:view-items' %}";
+</script>
+{% else %}
+
+<div class="card bg-light mb-3 mt-4" dir="rtl">
+    <div class="card-header h4"><i class="fa-solid fa-oil-well fa-lg"></i> ماددەی نوێ</div>
+    <div class="card-body">
+        <form action="{% url 'peshang_petrol:add-item' %}" method="POST">
+            {% csrf_token %}
+            
+            {{form.as_p}}
+            <button type="submit" class="btn btn-primary">زیادکردن</button>
+            <a href="{% url 'peshang_petrol:view-items' %}" class="btn btn-secondary">گەڕانەوە</a>
+        </form>
+    </div>
+    </div>
+
+{% endif %}
+
+{% endblock %}
+
+{% block js %}
+<script src="{% static 'js/jquery-3.3.1.min.js' %}"></script>
+<script> 
+$(document).ready(function(){
+    $('#buy_unit').change(function () {
+        var buy_unit=$('#buy_unit').find(":selected").text();
+        var unit_buy = "";
+        if(buy_unit == "Tn"){
+           unit_buy = "تۆن"; 
+        }else{
+            unit_buy = "لیتر"; 
+        }
+        $('label[for="tank_size"]').text(" قەبارەی تانکی بە " + unit_buy);
+        $('label[for="warning_amount"]').text(" بڕی ئاگادارکردنەوە بە " + unit_buy);
+        $('label[for="ton_to_liter"]').text(" بڕی یەک " + unit_buy + " دیاری بکە ");
+        $('label[for="buy_price"]').text(" نرخی کڕین یەک " + unit_buy );
+        
+        
+        });
+    $('#sell_unit').change(function () {
+        var buy_unit=$('#sell_unit').find(":selected").text();
+        var unit_sell = "";
+        if(buy_unit == "Tn"){
+           unit_sell = "تۆن"; 
+        }else{
+            unit_sell = "لیتر"; 
+        }
+
+        $('label[for="sell_price"]').text(" نرخی فرۆشتن یەک " + unit_sell );
+        
+        });    
+    });          
+  </script>
+{% endblock %}

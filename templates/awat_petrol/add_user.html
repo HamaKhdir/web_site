@@ -1,0 +1,45 @@
+{% extends 'awat_petrol/base.html' %}
+{% load static %}
+{% block body %}
+{% if success %}
+<script>
+    location = "{% url 'awat_petrol:view-users' %}";
+</script>
+{% else %}
+
+<div class="card bg-light mb-3 mt-4" dir="rtl">
+    <div class="card-header h4"><i class="fa-solid fa-user-tie fa-lg"></i> بەکارهێنەری نوێ </div>
+    <div class="card-body">
+        <form action="{% url 'awat_petrol:add-user' %}" method="POST">
+            {% csrf_token %}
+            <input type="text" class="form-control mb-1" name="username" placeholder="ناوی بەکارهێنەر" autocomplete="off" required>
+            <ul class="text-primary" style="font-size: 12px;">
+                <li>پیتەکان، ژمارەکان و @/./+/-/_ بەکاربهێنە.</li>
+            </ul>            
+            <input type="password" class="form-control mb-1" name="password1" placeholder="وشەی نهێنی" autocomplete="off" required>
+            <ul class="text-primary" style="font-size: 12px;">
+                <li>نابێ وشەی نهێنی لە ناوی بەکارهێنەر بچێت.</li>
+                <li>پێویستە وشەی نهێنی لە ٨ کارەکتەر کەمتر نەبێت.</li>
+                <li>نابێ وشەی نهێنی تەنها ژمارە بێت.</li>
+            </ul>
+            <input type="password" class="form-control mb-1" name="password2" placeholder="وشەی نهێنی بنوسەوە" autocomplete="off" required>
+            <ul class="text-primary" style="font-size: 12px;">
+                <li>پێویستە هەمان وشەی نهێنی سەرەوە لێرە بنوسیتەوە.</li>
+            </ul>  
+            <select class="form-select" name="shift" dir="ltr" required>                 
+                {% for shift in shifts%}
+                <option value="{{shift.id}}">{{shift.name}}</option>
+                {% endfor%}
+            </select>
+            <input type="text" class="form-control mt-2 mb-2" name="note" placeholder="تێبینی">  
+            <button type="submit" class="btn btn-primary">زیادکردن</button>
+            <a href="{% url 'awat_petrol:view-users' %}" class="btn btn-secondary">گەڕانەوە</a>
+        </form>
+    </div>
+    </div>
+
+{% endif %}
+
+{% endblock %}
+
+ 

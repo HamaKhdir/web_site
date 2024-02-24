@@ -1,0 +1,91 @@
+{% extends 'peshang_petrol/base.html' %}
+{% block body %}
+<div class="row mt-4">
+    <div class="col-12">
+        <div class="card bg-light" dir="rtl">
+            <div class="card-header">
+              <a type="button" href="{% url 'peshang_petrol:add-item' %}" class="btn btn-light"> <i class="fa-sharp fa-solid fa-plus fa-lg"></i> زیادکردن</a>
+              <a type="button" href="{% url 'peshang_petrol:export-items-csv' %}" class="btn btn-light float-right text-success ms-2"> <i class="fa-solid fa-file-excel fa-lg"></i>  هەڵگرتن  Excel</a>
+            </div>
+            <div class="card-body">
+                {% if items %}
+                <p class="card-text">
+                    <div class="table-responsive">
+                        <table class="table table-bordered table-striped text-center text-nowrap align-middle">
+                            <thead>
+                              <tr>
+                                <th scope="col">ناوی ماددە</th>
+                                <th scope="col">یەکەی کڕین</th>
+                                <th scope="col">قەبارەی تانکی</th>
+                                <th scope="col">یەکەی فرۆشتن</th>
+                                <th scope="col">نرخی کڕین</th>
+                                <th scope="col">نرخی فرۆشتن</th>
+                                <th scope="col">بڕی ئاگادارکردنەوە</th>
+                                <th scope="col"></th>
+                              </tr>
+                            </thead>
+                            <tbody>
+                            {% for item in items %}
+                              <tr class="table-active">
+                                <td>{{item.name}}</td>
+                                <td>{{item.buy_unit}}</td>
+                                <td>{{item.tank_size}}{{item.buy_unit}}</td>
+                                <td>{{item.sell_unit}}</td>
+                                <td>{{item.buy_price}}</td>
+                                <td>{{item.sell_price}}</td>
+                                <td>{{item.warning_amount}}{{item.buy_unit}}</td>
+                                <td>
+                                  
+                                <a type="button" href="{% url 'peshang_petrol:edit-item' item.id %}" class="btn btn-warning me-1">
+                                    <i class="fa-solid fa-pen-to-square fa-lg"></i>
+                                </a> 
+                                    <button type="button" disabled class="btn btn-danger me-1" data-bs-toggle="modal" data-bs-target="#delete{{item.id}}"><i class="fa-sharp fa-solid fa-trash fa-lg"></i></button> 
+                                    <!--Delete Model-->
+                                    <div class="modal" id="delete{{item.id}}" tabindex="-1" aria-hidden="true" aria-labelledby="mymodellabel2">
+                                        <div class="modal-dialog" role="document">
+                                          <div class="modal-content">
+                                            <div class="modal-header">
+                                              <h5 class="modal-title text-center">{{item.name}}</h5>
+                                            </div>
+                                            <div class="modal-body" dir="rtl">
+                                                <p>
+                                                   دڵنیای لە سڕینەوەی   <span class="text-danger">{{item.name}}</span>؟
+                                                </p>
+                                            </div>
+                                            <div class="modal-footer">
+                                            <form method="POST" action="{% url 'peshang_petrol:delete-item' item.id %}">
+                                                {% csrf_token %}
+                                                <input type="submit" class="btn btn-primary" value="سڕینەوە"/>
+                                              </form>  
+                                              <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">پەشیمانم</button>
+                                            </div>
+                                          </div>
+                                        </div>
+                                      </div>                                                                        
+                               
+                                </td>
+                              </tr>
+                              {% endfor %}
+                            </tbody>
+                          </table>
+                    </div>
+                </p>
+                {% else %}
+                <h4 class="card-title text-center">هیچ ماددەیەک تۆمارنەکراوە</h4>
+                {% endif%}
+            </div>
+          </div>
+    </div>
+</div>
+{%if messages%}
+<div class="row p-0 m-0 mt-4">
+  <div class="col-sm text-center p-0 m-0">             
+    {%for message in messages%}
+      <div class="alert alert-warning" role="alert">
+      {{message}} 
+    </div>
+    {%endfor%}           
+  </div>
+  </div>
+  {%endif%}
+{% endblock %}

@@ -1,0 +1,89 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+        <meta name="description" content="" />
+        <meta name="author" content="" />
+        <title>Dewana Group</title>
+        <link rel="icon" type="image/x-icon" href="{% static 'images/dewana.ico' %}" />
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css"/>
+        <link href="{% static 'css/fontstyle.css' %}" rel="stylesheet">
+        <link href="{% static 'css/styles.css' %}" rel="stylesheet">        
+    </head>
+    <body class="d-flex flex-column min-vh-100">
+        <div class="text-center mt-2">  
+                <img src="{% static 'images/dewana.png' %}" class="responsive" style="width: 100px; height: 100px; pointer-events: none;">
+        </div>
+        <div class="text-center mt-2 mb-4">  
+            <h4 class="fw-bold" style="color: #0075BC;">گروپی دێوانە</h4>
+        </div>
+        <section class="pt-4 ">
+            <div class="container px-lg-5">
+                <div class="row gx-lg-5">
+                    <div class="col-lg-6 col-xxl-4 mb-5">
+                        <div class="card bg-warning border-0 h-100">
+                            <div class="card-body text-center p-4 p-lg-5 pt-0 pt-lg-0">
+                                <div class="feature bg-info bg-gradient text-white rounded-3 mb-4 mt-n4"><i class="fa-solid fa-gas-pump"></i></div>
+                                <h2 class="fs-4 fw-bold"><a class="text-decoration-none" href="{% url 'peshang_petrol:index' %}" style="color: #0075BC;">بەنزینخانەی پێشەنگ</a></h2>
+                                <p class="mb-0 text-secondary" dir="rtl">بۆ چوونە ناو بەنزینخانەی پێشەنگ کلیک لەسەر ئەم لینکەی سەرەوە بکە!</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-lg-6 col-xxl-4 mb-5">
+                        <div class="card bg-warning border-0 h-100">
+                            <div class="card-body text-center p-4 p-lg-5 pt-0 pt-lg-0">
+                                <div class="feature bg-info bg-gradient text-white rounded-3 mb-4 mt-n4"><i class="fa-solid fa-gas-pump"></i></div>
+                                <h2 class="fs-4 fw-bold"><a class="text-decoration-none" href="{% url 'awat_petrol:index' %}" style="color: #0075BC;">بەنزینخانەی ئاوات</a></h2>
+                                <p class="mb-0 text-secondary" dir="rtl">بۆ چوونە ناو بەنزینخانەی ئاوات کلیک لەسەر ئەم لینکەی سەرەوە بکە!</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-lg-6 col-xxl-4 mb-5">
+                        <div class="card bg-warning border-0 h-100">
+                            <div class="card-body text-center p-4 p-lg-5 pt-0 pt-lg-0">
+                                <div class="feature bg-info bg-gradient text-white rounded-3 mb-4 mt-n4"><i class="fa-solid fa-dumbbell"></i></div>
+                                <h2 class="fs-4 fw-bold"><a class="text-decoration-none" href="{% url 'body_building:login' %}" style="color: #0075BC;">هۆڵی لەشجوانی </a></h2>
+                                <p class="mb-0 text-secondary" dir="rtl">بۆ چوونە ناو هۆڵی لەشجوانی کلیک لەسەر ئەم لینکەی سەرەوە بکە!</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-lg-6 col-xxl-4 mb-5">
+                        <div class="card bg-warning border-0 h-100">
+                            <div class="card-body text-center p-4 p-lg-5 pt-0 pt-lg-0">
+                                <div class="feature bg-info bg-gradient text-white rounded-3 mb-4 mt-n4"><i class="fa-solid fa-feather-pointed"></i></div>
+                                <h2 class="fs-4 fw-bold"><a class="text-decoration-none" href="{% url 'peshang_petrol:index' %}" style="color: #0075BC;">کێڵگەی پەلەوەڕ</a></h2>
+                                <p class="mb-0 text-secondary" dir="rtl">بۆ چوونە ناوکێڵگەی پەلەوەڕ کلیک لەسەر ئەم لینکەی سەرەوە بکە!</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-lg-6 col-xxl-4 mb-5">
+                        <div class="card bg-warning border-0 h-100">
+                            <div class="card-body text-center p-4 p-lg-5 pt-0 pt-lg-0">
+                                <div class="feature bg-info bg-gradient text-white rounded-3 mb-4 mt-n4"><i class="fa-solid fa-feather-pointed"></i></div>
+                                <h2 class="fs-4 fw-bold"><a class="text-decoration-none" href="{% url 'peshang_petrol:index' %}" style="color: #0075BC;">کێڵگەی پەلەوەڕ</a></h2>
+                                <p class="mb-0 text-secondary" dir="rtl">بۆ چوونە ناو کێڵگەی پەلەوەڕ کلیک لەسەر ئەم لینکەی سەرەوە بکە!</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-lg-6 col-xxl-4 mb-5">
+                        <div class="card bg-warning border-0 h-100">
+                            <div class="card-body text-center p-4 p-lg-5 pt-0 pt-lg-0">
+                                <div class="feature bg-info bg-gradient text-white rounded-3 mb-4 mt-n4"><i class="fa-solid fa-feather-pointed"></i></div>
+                                <h2 class="fs-4 fw-bold"><a class="text-decoration-none" href="{% url 'peshang_petrol:index' %}" style="color: #0075BC;">کێڵگەی پەلەوەڕ</a></h2>
+                                <p class="mb-0 text-secondary" dir="rtl">بۆ چوونە ناوکێڵگەی پەلەوەڕ کلیک لەسەر ئەم لینکەی سەرەوە بکە!</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+        <div class="footer mt-auto mb-2">
+            <div class="text-center text-nowrap">
+                <small>Developed by Software Engineer Hama Kh. &copy; <script> document.write(new Date().getFullYear())</script></small>
+            </div>
+        </div> 
+        <script src="{% static 'js/bootstrap.bundle.min.js' %}"></script>
+    </body>
+</html>

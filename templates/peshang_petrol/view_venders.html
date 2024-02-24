@@ -1,0 +1,72 @@
+{% extends 'peshang_petrol/base.html' %}
+{% block body %}
+<div class="row mt-4">
+    <div class="col-12">
+        <div class="card bg-light" dir="rtl">
+            <div class="card-header">
+              <a type="button" href="{% url 'peshang_petrol:add-vender' %}" class="btn btn-light"> <i class="fa-sharp fa-solid fa-plus fa-lg"></i> زیادکردن</a>
+              <a type="button" href="#" class="btn btn-light float-right text-success ms-2"> <i class="fa-solid fa-file-excel fa-lg"></i>  هەڵگرتن  Excel</a>
+            </div>
+            <div class="card-body">
+                {% if venders %}
+                <p class="card-text">
+                    <div class="table-responsive">
+                        <table class="table table-bordered table-striped text-center text-nowrap align-middle">
+                            <thead>
+                              <tr>
+                                <th scope="col">ناوی فرۆشیار</th>
+                                <th scope="col">ناونیشان</th>
+                                <th scope="col">تەلەفۆن</th>
+                                <th scope="col"></th>
+                              </tr>
+                            </thead>
+                            <tbody>
+                            {% for vender in venders %}
+                              <tr class="table-active">
+                                <td>{{vender.fullName}}</td>
+                                <td>{{vender.address}}</td>
+                                <td>{{vender.tel}}</td>
+                                <td>
+                                    <a type="button" href="{% url 'peshang_petrol:vender-accounts' vender.id %}" class="btn btn-info me-1">
+                                      <i class="fa-solid fa-file-invoice-dollar fa-lg"></i>
+                                    </a> 
+                                    <!--View Model-->
+                                    <div class="modal" id="mymodal{{vender.id}}" tabindex="-1" aria-hidden="true" aria-labelledby="mymodellabel1">
+                                        <div class="modal-dialog" role="document">
+                                          <div class="modal-content">
+                                            <div class="modal-header">
+                                              <h5 class="modal-title text-center">{{vender.fullName}}</h5>
+                                            </div>
+                                            <div class="modal-body" dir="rtl">
+                                                <ul class="list-unstyled">
+                                                    <li>  ناونیشان : <strong>{{vender.address}}</strong></li>
+                                                    <li>  تەلەفۆن : <strong>{{vender.tel}}</strong></li>
+                                                </ul>
+                                            </div>
+                                            <div class="modal-footer">
+                                              <button type="button" class="btn btn-primary" data-bs-dismiss="modal">داخستن</button>
+                                            </div>
+                                          </div>
+                                        </div>
+                                      </div>
+                                      <a type="button" href="{% url 'peshang_petrol:edit-vender' vender.id %}" class="btn btn-warning me-1">
+                                        <i class="fa-solid fa-pen-to-square fa-lg"></i>
+                                    </a> 
+                                    <button type="button" class="btn btn-danger me-1" data-bs-toggle="modal" data-bs-target="#delete{{vender.id}}"><i class="fa-sharp fa-solid fa-trash fa-lg"></i></button> 
+                               
+                                </td>
+                              </tr>
+                              {% endfor %}
+                            </tbody>
+                          </table>
+                    </div>
+                </p>
+                {% else %}
+                <h4 class="card-title text-center">هیچ فرۆشیارێک تۆمارنەکراوە</h4>
+                {% endif%}
+            </div>
+          </div>
+    </div>
+</div>
+
+{% endblock %}

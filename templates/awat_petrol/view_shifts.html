@@ -1,0 +1,83 @@
+{% extends 'awat_petrol/base.html' %}
+{% block body %}
+<div class="row mt-4">
+    <div class="col-12">
+        <div class="card bg-light" dir="rtl">
+            <div class="card-header">
+              <a type="button" href="{% url 'awat_petrol:add-shift' %}" class="btn btn-light"> <i class="fa-sharp fa-solid fa-plus fa-lg"></i> زیادکردن</a>
+              <a type="button" href="#" class="btn btn-light float-right text-success ms-2"> <i class="fa-solid fa-file-excel fa-lg"></i>  هەڵگرتن  Excel</a>
+            </div>
+            <div class="card-body">
+                {% if shifts %}
+                <p class="card-text">
+                    <div class="table-responsive">
+                        <table class="table table-bordered table-striped text-center text-nowrap align-middle">
+                            <thead>
+                              <tr>
+                                <td scope="col">ناوی شەفت</td>
+                                <td scope="col">کاتی دەست بەکاربوون</td>
+                                <td scope="col">کاتی دەست هەڵگرتن</td>
+                                <td scope="col"></td>
+                              </tr>
+                            </thead>
+                            <tbody>
+                            {% for shift in shifts %}
+                              <tr>
+                                <td>{{shift.name}}</td>
+                                <td>{{shift.start_work}}</td>
+                                <td>{{shift.end_work}}</td>
+                                <td>
+                                  
+                                <a type="button" href="{% url 'awat_petrol:edit-shift' shift.id %}" class="btn btn-warning me-1">
+                                    <i class="fa-solid fa-pen-to-square fa-lg"></i>
+                                </a> 
+                                    <button type="button" class="btn btn-danger me-1" data-bs-toggle="modal" data-bs-target="#delete{{shift.id}}"><i class="fa-sharp fa-solid fa-trash fa-lg"></i></button> 
+                                    <!--Delete Model-->
+                                    <div class="modal" id="delete{{shift.id}}" tabindex="-1" aria-hidden="true" aria-labelledby="mymodellabel2">
+                                        <div class="modal-dialog" role="document">
+                                          <div class="modal-content">
+                                            <div class="modal-header">
+                                              <h5 class="modal-title text-center">شەفتی {{shift.name}}</h5>
+                                            </div>
+                                            <div class="modal-body" >
+                                                <p>
+                                                    دڵنیای لە سڕینەوەی شەفتی <span class="text-danger">{{shift.name}}</span>؟
+                                                </p>
+                                            </div>
+                                            <div class="modal-footer">
+                                            <form method="POST" action="{% url 'awat_petrol:delete-shift' shift.id %}">
+                                                {% csrf_token %}
+                                                <input type="submit" class="btn btn-primary" value="سڕینەوە"/>
+                                              </form>  
+                                              <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">پەشیمانم</button>
+                                            </div>
+                                          </div>
+                                        </div>
+                                      </div>                                                                        
+                               
+                                </td>
+                              </tr>
+                              {% endfor %}
+                            </tbody>
+                          </table>
+                    </div>
+                </p>
+                {% else %}
+                <h4 class="card-title text-center">هیچ شەفتێک تۆمارنەکراوە</h4>
+                {% endif%}
+            </div>
+          </div>
+    </div>
+</div>
+{%if messages%}
+<div class="row p-0 m-0 mt-4">
+  <div class="col-sm text-center p-0 m-0">             
+    {%for message in messages%}
+      <div class="alert alert-warning" role="alert">
+      {{message}} 
+    </div>
+    {%endfor%}           
+  </div>
+  </div>
+  {%endif%}
+{% endblock %}

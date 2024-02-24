@@ -1,0 +1,92 @@
+{% extends 'peshang_petrol/base.html'%}
+{% load static %}
+{%block body%}
+{% for x in qs %}
+<div class="row mt-2">
+    <div class="col-sm-12 text-center">
+      <div id="tank{{x.id}}" width="880" height="400" dir="ltr" style="display: inline-block; vertical-align: middle;" > </div>
+    </div>
+  </div> 
+  <hr/>
+{% endfor%} 
+{%endblock %}
+{%block js%}
+<script src="{% static 'js/apexcharts.js' %}"></script>
+<script>
+    {% for x in qs %}
+         var options = {
+          series: [{{x.amount}},(({{x.item.tank_size}}*{{x.item.buy_unit.to_liter}})-{{x.amount}}) ],
+          chart: {            
+          width: 500,
+          type: 'donut',          
+          fontFamily: 'myFont',
+          dropShadow: {
+            enabled: true,
+            color: '#111',
+            blur: 3,
+            opacity: 0.2
+          }
+        },
+        stroke: {
+          width: 0,
+        },
+        plotOptions: {
+          pie: {
+            donut: {
+              labels: {
+                show: true,
+                total: {
+                  label: 'قەبارە',
+                  showAlways: true,
+                  show: true
+                }
+              }
+            }
+          }
+        },
+        labels: ['{{x.item.name}}','بۆشایی'],
+        dataLabels: {
+          dropShadow: {
+            blur: 3,
+            opacity: 0.8
+          },
+        },
+        fill: {
+        type: 'gradient',
+          opacity: 1,
+          pattern: {
+            enabled: true,
+            style: ['circles','slantedLines'],
+          },
+        },
+        states: {
+          hover: {
+            filter: 'none'
+          }
+        },
+        theme: {
+          palette: 'palette2'
+        },
+        title: {
+          text: "تانکی {{x.item}} ({{x.item.tank_size}})  {{x.item.buy_unit.get_name_display}}",           
+          align: 'center',
+        },
+        responsive: [{
+          breakpoint: 880,
+          options: {
+            chart: {
+             fontFamily: 'myFont',
+              width: 400
+            },
+            legend: {
+              position: 'bottom'
+            }
+          }
+        }]
+        };
+        var chart = new ApexCharts(document.querySelector("#tank{{x.id}}"), options);
+        chart.render();
+    {% endfor%} 
+</script>
+{%endblock%}
+

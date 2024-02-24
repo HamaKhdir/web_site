@@ -1,0 +1,66 @@
+{% extends 'awat_petrol/base.html' %}
+{% block body %}
+<div class="row mt-4">
+    <div class="col-12">
+        <div class="card bg-light" dir="rtl">
+            <div class="card-header">
+              <a type="button" href="{% url 'awat_petrol:add-vender' %}" class="btn btn-light"> <i class="fa-sharp fa-solid fa-plus fa-lg"></i> زیادکردن</a>
+              <a type="button" href="#" class="btn btn-light float-right text-success ms-2"> <i class="fa-solid fa-file-excel fa-lg"></i>  هەڵگرتن  Excel</a>
+            </div>
+            <div class="card-body">
+                {% if venders %}
+                <p class="card-text">
+                    <div class="table-responsive">
+                        <table class="table table-bordered table-striped text-center text-nowrap align-middle">
+                            <thead>
+                              <tr>
+                                <td scope="col">ناوی فرۆشیار</td>
+                                <td scope="col">ناونیشان</td>
+                                <td scope="col">تەلەفۆن</td>
+                                <td scope="col"></td>
+                              </tr>
+                            </thead>
+                            <tbody>
+                            {% for vender in venders %}
+                              <tr class="table-active">
+                                <td>{{vender.fullName}}</td>
+                                <td>{{vender.address}}</td>
+                                <td>{{vender.tel}}</td>
+                                <td>
+                                  <a type="button" href="{% url 'awat_petrol:vender-accounts' vender.id %}" class="btn btn-info me-1 {% if customer.temporary == True %}d-none{% endif %}">
+                                    <i class="fa-solid fa-file-lines fa-lg"></i>
+                                   </a> 
+
+                                      <a type="button" href="{% url 'awat_petrol:edit-vender' vender.id %}" class="btn btn-warning me-1">
+                                        <i class="fa-solid fa-pen-to-square fa-lg"></i>
+                                    </a> 
+                                    <button type="button" class="btn btn-danger me-1" data-bs-toggle="modal" data-bs-target="#delete{{vender.id}}"><i class="fa-sharp fa-solid fa-trash fa-lg"></i></button> 
+                               
+                                </td>
+                              </tr>
+                              {% endfor %}
+                            </tbody>
+                          </table>
+                    </div>
+                </p>
+                {% else %}
+                <h4 class="card-title text-center">هیچ فرۆشیارێک تۆمارنەکراوە</h4>
+                {% endif%}
+            </div>
+            {% if pagination %}
+            <div class="card-footer text-center">
+              {% if venders.has_previous %}
+                <a  class="text-decoration-none" href="?page=1">&laquo; سەرەتا</a>
+                <a  class="text-decoration-none" href="?page={{venders.previous_page_number}}"> پێشتر </a>
+              {% endif %} &#10088; پەڕەی {{venders.number}} لە {{venders.paginator.num_pages}} &#10089;
+              {% if venders.has_next %} 
+                <a  class="text-decoration-none" href="?page={{venders.next_page_number}}">دواتر</a>
+                <a  class="text-decoration-none" href="?page={{venders.paginator.num_pages}}"> کۆتا &raquo;</a>
+              {% endif %}              
+            </div>
+            {% endif %}             
+          </div>
+    </div>
+</div>
+
+{% endblock %}

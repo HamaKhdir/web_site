@@ -1,0 +1,88 @@
+{% extends 'awat_petrol/base.html' %}
+{% block body %}
+<div class="row mt-4">
+    <div class="col-12">
+        <div class="card bg-light" dir="rtl">
+            <div class="card-header">
+              <a type="button" href="{% url 'awat_petrol:add-customer' %}" class="btn btn-light"> <i class="fa-sharp fa-solid fa-plus fa-lg"></i> زیادکردن</a>
+              <a type="button" href="#" class="btn btn-light float-right text-success ms-2"> <i class="fa-solid fa-file-excel fa-lg"></i>  هەڵگرتن  Excel</a>
+            </div>
+            <div class="card-body">
+                {% if customers %}
+                <p class="card-text">
+                    <div class="table-responsive">
+                        <table class="table table-bordered table-striped text-center text-nowrap align-middle">
+                            <thead>
+                              <tr>
+                                <td scope="col">ناوی موشتەری</td>
+                                <td scope="col">ناونیشان</td>
+                                <td scope="col">تەلەفۆن</td>
+                                <td scope="col"></td>
+                              </tr>
+                            </thead>
+                            <tbody>
+                            {% for customer in customers %}
+                              <tr class="table-active">
+                                <td>{{customer.fullName}}</td>
+                                <td>{{customer.address}}</td>
+                                <td>{{customer.tel}}</td>
+                                <td>
+                                    <a type="button" href="{% url 'awat_petrol:customer-accounts' customer.id %}" class="btn btn-info me-1 {% if customer.temporary == True %}d-none{% endif %}">
+                                      <i class="fa-solid fa-file-lines fa-lg"></i>
+                                     </a>                                     
+
+                                    <a type="button" href="{% url 'awat_petrol:edit-customer' customer.id %}" class="btn btn-warning me-1 {% if customer.temporary == True %}d-none{% endif %}">
+                                        <i class="fa-solid fa-pen-to-square fa-lg"></i>
+                                    </a> 
+                                    <button type="button" class="btn btn-danger me-1 {% if customer.temporary == True %}d-none{% endif %}" data-bs-toggle="modal" data-bs-target="#delete{{customer.id}}"><i class="fa-sharp fa-solid fa-trash fa-lg"></i></button> 
+                                    <!--Delete Model-->
+                                    <div class="modal" id="delete{{customer.id}}" tabindex="-1" aria-hidden="true" aria-labelledby="mymodellabel2">
+                                        <div class="modal-dialog" role="document">
+                                          <div class="modal-content">
+                                            <div class="modal-header text-center">
+                                              <h5 class="modal-title">{{customer.fullName}}</h5>
+                                            </div>
+                                            <div class="modal-body" dir="rtl">
+                                                <p>
+                                                   دڵنیای لە سڕینەوەی   <span class="text-danger">{{customer.fullName}}</span>؟
+                                                </p>
+                                            </div>
+                                            <div class="modal-footer">
+                                              <form method="POST" action="{% url 'awat_petrol:delete-customer' customer.id %}">
+                                                {% csrf_token %}
+                                                <input type="submit" class="btn btn-primary" value="سڕینەوە"/>
+                                              </form>  
+                                              <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">پەشیمانم</button>
+                                            </div>
+                                          </div>
+                                        </div>
+                                      </div>                                                                        
+                               
+                                </td>
+                              </tr>
+                              {% endfor %}
+                            </tbody>
+                          </table>
+                    </div>
+                </p>
+                {% else %}
+                <h4 class="card-title text-center">هیچ موشتەریێک تۆمارنەکراوە</h4>
+                {% endif%}
+            </div>
+            {% if pagination %}
+            <div class="card-footer text-center">
+              {% if customers.has_previous %}
+                <a  class="text-decoration-none" href="?page=1">&laquo; سەرەتا</a>
+                <a  class="text-decoration-none" href="?page={{customers.previous_page_number}}"> پێشتر </a>
+              {% endif %} &#10088; پەڕەی {{customers.number}} لە {{customers.paginator.num_pages}} &#10089;
+              {% if customers.has_next %} 
+                <a  class="text-decoration-none" href="?page={{customers.next_page_number}}">دواتر</a>
+                <a  class="text-decoration-none" href="?page={{customers.paginator.num_pages}}"> کۆتا &raquo;</a>
+              {% endif %}              
+            </div>
+            {% endif %}            
+          </div>
+    </div>
+</div>
+
+{% endblock %}

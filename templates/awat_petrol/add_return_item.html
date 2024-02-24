@@ -1,0 +1,25 @@
+{% extends 'awat_petrol/base.html' %}
+{% load static %}
+{% block body %}
+{% if success %}
+<script>
+    location = "{% url 'awat_petrol:view-return-items' %}"; //view-counters
+</script>
+{% else %}
+<div class="card bg-light mb-3 mt-4" dir="rtl">
+    <div class="card-header h4"><i class="fa-solid fa-person-walking-arrow-loop-left fa-lg"></i>  تۆماری گەڕاوەکان</div>
+    <div class="card-body">
+        <form action="{% url 'awat_petrol:add-return-item' %}" method="POST">
+            {% csrf_token %}            
+            {{form.as_p}}
+            <button type="submit" class="btn btn-primary">زیادکردن</button>
+            <a href="{% url 'awat_petrol:index' %}" class="btn btn-secondary">گەڕانەوە</a>
+        </form>
+    </div>
+</div>
+{% endif %}
+
+
+{% endblock %}
+
+ 

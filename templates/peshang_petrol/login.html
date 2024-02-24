@@ -1,0 +1,56 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pashang Petrol Station</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css"/>
+    <link href="{% static 'css/fontstyle.css' %}" rel="stylesheet">
+    <link href="{% static 'css/bootstrap.rtl.min.css' %}" rel="stylesheet">
+</head>
+<body class="d-flex flex-column min-vh-100">
+    <div class="container mt-5">
+        <div class="row justify-content-center">
+ 
+            <div class="col-md-6">
+                <h2 class="text-center text-primary"><i class="fa-solid fa-gas-pump fa-lg"></i>بەنزینخانەی پێشەنگ</h2>
+                <form id="loginForm" method="post" action="{% url 'peshang_petrol:login' %}">
+                    {% csrf_token %}
+                    <div class="mb-3">
+                        <label for="username" class="form-label text-dark">ناوی بەکارهێنەر</label>
+                        <input type="text" class="form-control" id="username" name="username" autocomplete="off" autofocus="" required oninvalid="this.setCustomValidity('Enter username.')"
+                        oninput="this.setCustomValidity('')">
+                    </div>
+                    <div class="mb-3">
+                        <label for="password" class="form-label text-dark">ووشەی نهێنی</label>
+                        <input type="password" class="form-control" id="password" name="password" autocomplete="off" required oninvalid="this.setCustomValidity('Enter password.')"
+                        oninput="this.setCustomValidity('')">
+                    </div>
+                    <button type="submit" class="btn btn-primary   w-100"><i class="fa-solid fa-right-to-bracket"></i> چوونە ژوور</button>
+                    <div class="form-row mt-3 mb-2">
+					    {%if messages%}
+					    <div class="col">
+					    	{%for message in messages%}
+						    	<div class="alert alert-primary text-danger text-center" role="alert">
+									<i class="fa-solid fa-triangle-exclamation fa-lg"></i> {{message}} 
+								</div>
+					    	{%endfor%}
+					    </div>
+					    {%endif%}
+					  </div>
+                </form>
+            </div>
+        </div>
+    </div>
+    <div class="footer mt-auto mb-2">
+        <div class="text-center mb-2">  
+            <a href="{% url 'main' %}"><img src="{% static 'images/dewana.png' %}" class="responsive" style="width: 100px; height: 100px;"></a>
+        </div>
+        <div class="text-center text-nowrap">
+            <small>Developed by Software Engineer Hama Kh. &copy; <script> document.write(new Date().getFullYear())</script></small>
+        </div>
+      </div> 
+    <script src="{% static 'js/bootstrap.bundle.min.js' %}"></script>
+</body>
+</html>
