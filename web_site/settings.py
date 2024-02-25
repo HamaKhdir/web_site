@@ -72,24 +72,25 @@ DATABASES = {
         'ENGINE': 'django.db.backends.sqlite3',
         'NAME': BASE_DIR / 'db.sqlite3',
     },
+
     "peshang_petrol_db": {
         "NAME": "peshang_petrol",
         "ENGINE": "django.db.backends.mysql",
-        "USER": "root",
+        "USER": "hama",
         #"PASSWORD": os.environ.get('db_password'),
-        "PASSWORD":"",
-        'HOST':'localhost',
+        "PASSWORD":"Qazqazixward123",
+        'HOST':'dewanagroup-mysql.ct4acsgkoge2.eu-north-1.rds.amazonaws.com',
         "PORT":3306,
     },
     "awat_petrol_db": {
         "NAME": "awat_petrol",
         "ENGINE": "django.db.backends.mysql",
-        "USER": "root",
+        "USER": "hama",
         #"PASSWORD": os.environ.get('db_password'),
-        "PASSWORD":"",
-        'HOST':'localhost',
+        "PASSWORD":"Qazqazixward123",
+        'HOST':'dewanagroup-mysql.ct4acsgkoge2.eu-north-1.rds.amazonaws.com',
         "PORT":3306,
-    },    
+    },   
 }
 
 
